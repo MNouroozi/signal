@@ -1,0 +1,9 @@
+basePath: /api/v1
+host: localhost:3000
+info:
+  contact: {}
+  description: داکیومنت برنامه سیگنال
+  title: Example API
+  version: 0.1.0
+paths: {}
+swagger: "2.0"
