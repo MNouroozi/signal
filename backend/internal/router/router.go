@@ -15,7 +15,7 @@ import (
 
 func SetupRoutes(app *fiber.App, userRepo *user.UserRepository, audioRepo *udp.AudioDataRepository, jwtService *service.JWTService) {
 
-	//api := app.Group("/api/v1")
+	api := app.Group("/api/v1")
 
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
@@ -28,17 +28,17 @@ func SetupRoutes(app *fiber.App, userRepo *user.UserRepository, audioRepo *udp.A
 		return c.Next()
 	})
 
-	app.Post("/signup", func(c *fiber.Ctx) error {
+	api.Post("/signup", func(c *fiber.Ctx) error {
 		handler := user.User{}
 		return handler.SignUp(c, userRepo)
 	})
 
-	app.Post("/login", func(c *fiber.Ctx) error {
+	api.Post("/login", func(c *fiber.Ctx) error {
 		handler := user.User{}
 		return handler.Login(c, userRepo, jwtService)
 	})
 
-	app.Get("/users", func(c *fiber.Ctx) error {
+	api.Get("/users", func(c *fiber.Ctx) error {
 		users, err := userRepo.GetAllUsers()
 		if err != nil {
 			return c.Status(500).JSON(fiber.Map{"error": "Error retrieving users"})
@@ -46,7 +46,7 @@ func SetupRoutes(app *fiber.App, userRepo *user.UserRepository, audioRepo *udp.A
 		return c.JSON(users)
 	})
 
-	app.Get(
+	api.Get(
 		"/getUserById",
 		func(c *fiber.Ctx) error {
 			id := c.Params("ID")
@@ -58,7 +58,7 @@ func SetupRoutes(app *fiber.App, userRepo *user.UserRepository, audioRepo *udp.A
 		},
 	)
 
-	app.Delete("/deleteuser", func(c *fiber.Ctx) error {
+	api.Delete("/deleteUser", func(c *fiber.Ctx) error {
 		user, err := userRepo.GetUserByID(c.Params("ID"))
 		fmt.Println(user)
 		if err != nil {
@@ -73,7 +73,7 @@ func SetupRoutes(app *fiber.App, userRepo *user.UserRepository, audioRepo *udp.A
 		return c.JSON("200")
 	})
 
-	app.Get("/audios", func(c *fiber.Ctx) error {
+	api.Get("/getAllAudio", func(c *fiber.Ctx) error {
 		audios, err := audioRepo.GetAllAudioData()
 		if err != nil {
 			return c.Status(500).JSON(fiber.Map{"error": "Error retrieving audios"})
@@ -99,7 +99,7 @@ func SetupRoutes(app *fiber.App, userRepo *user.UserRepository, audioRepo *udp.A
 		return c.JSON(response)
 	})
 
-	app.Post("/send-audio", func(c *fiber.Ctx) error {
+	api.Post("/sendAudio", func(c *fiber.Ctx) error {
 		file, err := c.FormFile("audio")
 		if err != nil {
 			return c.Status(400).SendString("خطا در دریافت فایل")
@@ -121,7 +121,7 @@ func SetupRoutes(app *fiber.App, userRepo *user.UserRepository, audioRepo *udp.A
 		return c.SendString("Audio data recived and send")
 	})
 
-	app.Post("/send-message", func(c *fiber.Ctx) error {
+	api.Post("/sendMessage", func(c *fiber.Ctx) error {
 		type MessageRequest struct {
 			Message string `json:"message"`
 		}
@@ -135,6 +135,6 @@ func SetupRoutes(app *fiber.App, userRepo *user.UserRepository, audioRepo *udp.A
 		return c.SendString("Message data send .")
 	})
 
-	app.Get("/swagger/*", swagger.HandlerDefault)
+	api.Get("/swagger/*", swagger.HandlerDefault)
 
 }

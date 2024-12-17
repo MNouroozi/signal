@@ -9,6 +9,7 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/google/uuid v1.6.0
+	github.com/h2non/filetype v1.1.3
 	github.com/hajimehoshi/go-mp3 v0.3.4
 	github.com/joho/godotenv v1.5.1
 	github.com/swaggo/swag v1.16.3

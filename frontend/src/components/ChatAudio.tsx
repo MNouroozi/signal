@@ -35,7 +35,7 @@ const handleConnectServer = () => {
     return;
   }
 
-  const serverUrl = `http://${serverIP}:${serverPort}/send-message`;
+  const serverUrl = `http://${serverIP}:${serverPort}/api/v1/sendMessage`;
   const message = "پیام تست برای ارسال به سرور UDP";  // پیام دلخواه شما
 
   fetch(serverUrl, {

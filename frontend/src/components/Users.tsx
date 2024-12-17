@@ -18,7 +18,7 @@ const UsersTable: React.FC = () => {
 
   // گرفتن لیست کاربران از API
   useEffect(() => {
-    axios.get('http://127.0.0.1:4000/users')
+    axios.get('http://127.0.0.1:4000/api/v1/users')
       .then((response) => {
         console.log('داده‌های دریافت شده:', response.data); 
         if (Array.isArray(response.data)) {

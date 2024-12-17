@@ -22,7 +22,7 @@ const AudioTable: React.FC = () => {
 
   // گرفتن لیست فایل‌های صوتی از API
   useEffect(() => {
-    axios.get('http://127.0.0.1:4000/audios')
+    axios.get('http://127.0.0.1:4000/api/v1/getAllAudio')
       .then((response) => {
         if (Array.isArray(response.data)) {
           // داده‌های دریافتی را تنظیم می‌کنیم

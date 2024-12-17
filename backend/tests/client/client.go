@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func sendAudioFile(filePath string, serverAddr string) {
+func sendAudioFile(filePath string, serverAddr string, serverPort int, localPort int) {
 	// باز کردن فایل صوتی
 	file, err := os.Open(filePath)
 	if err != nil {
@@ -16,12 +16,13 @@ func sendAudioFile(filePath string, serverAddr string) {
 	}
 	defer file.Close()
 
-	const maxPacketSize = 5 * 1024     // 1KB
+	const maxPacketSize = 5 * 1024     // 5KB
 	buf := make([]byte, maxPacketSize) // بافر برای ذخیره داده‌های صوتی
 
-	conn, err := net.Dial("udp", serverAddr)
+	// ایجاد اتصال UDP با استفاده از پورت محلی خاص
+	conn, err := net.DialUDP("udp", &net.UDPAddr{Port: localPort}, &net.UDPAddr{IP: net.ParseIP(serverAddr), Port: serverPort})
 	if err != nil {
-		log.Fatalf("Error dialing UDP server: %v", err)
+		log.Fatalf("Error dialing UDP server on port %d: %v", localPort, err)
 	}
 	defer conn.Close()
 
@@ -40,7 +41,7 @@ func sendAudioFile(filePath string, serverAddr string) {
 		if err != nil {
 			log.Fatalf("Error sending data: %v", err)
 		}
-		fmt.Printf("Sent %d bytes of audio data\n", n)
+		fmt.Printf("Sent %d bytes of audio data from port %d\n", n, localPort)
 
 		// تاخیر کوتاه برای جلوگیری از ارسال خیلی سریع
 		time.Sleep(1 * time.Millisecond)
@@ -52,9 +53,13 @@ func sendAudioFile(filePath string, serverAddr string) {
 func main() {
 	// مسیر فایل صوتی و آدرس سرور UDP
 	filePath := "/Users/mero/Music/test.mp3" // مسیر فایل MP3 خود را وارد کنید
-	// مسیر فایل MP3 خود را وارد کنید
-	serverAddr := "localhost:5000" // آدرس سرور UDP
+	serverAddr := "localhost"
+	serverPort := 5000 // آدرس سرور UDP
 
-	// ارسال فایل صوتی به سرور
-	sendAudioFile(filePath, serverAddr)
+	// ارسال فایل صوتی به سرور با استفاده از پورت 65534
+	localPort := 65534
+	for i := 0; i <= 3; i++ {
+		time.Sleep(1 * time.Second)
+		sendAudioFile(filePath, serverAddr, serverPort, localPort)
+	}
 }
