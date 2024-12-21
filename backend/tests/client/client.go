@@ -58,8 +58,8 @@ func main() {
 
 	// ارسال فایل صوتی به سرور با استفاده از پورت 65534
 	localPort := 65534
-	for i := 0; i <= 3; i++ {
-		time.Sleep(1 * time.Second)
+	for i := 3; i <= 3; i++ {
+		time.Sleep(5 * time.Second)
 		sendAudioFile(filePath, serverAddr, serverPort, localPort)
 	}
 }

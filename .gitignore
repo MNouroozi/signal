@@ -152,3 +152,6 @@ dist
 
 # mac
 .DS_Store
+
+#docker data
+data

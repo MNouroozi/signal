@@ -1,8 +1,9 @@
-package database
+package connection
 
 import (
 	"log"
-	config "signal/configs"
+	config "signal/config"
+	postgers "signal/internal/postgres"
 	"signal/internal/udp"
 	"signal/internal/user"
 
@@ -18,6 +19,7 @@ func ConnectDB() *gorm.DB {
 		log.Fatalf("Error connecting to database %v", err)
 	}
 	if err := db.AutoMigrate(
+		&postgers.AudioLog{},
 		&user.User{},
 		&user.Rol{},
 		&udp.Message{},

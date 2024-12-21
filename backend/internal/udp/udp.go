@@ -6,7 +6,9 @@ import (
 	"os"
 	"time"
 
-	config "signal/configs"
+	config "signal/config"
+	"signal/internal/kafka"
+	postgers "signal/internal/postgres"
 
 	"github.com/hajimehoshi/go-mp3"
 	"gorm.io/gorm"
@@ -17,14 +19,34 @@ var audioQueue = make(chan AudioData, 100)
 func ProcessAudioQueue(db *gorm.DB) {
 	for data := range audioQueue {
 		saveAudioData(db, data.Data, data.IP, data.Port, data.Duration)
+
+		// ذخیره داده صوتی در PostgreSQL
+		audioLog := postgers.AudioLog{
+			IP:       data.IP,
+			Port:     data.Port,
+			Duration: data.Duration,
+			FileName: "audio-file.mp3", // نام فایل برای ذخیره در پایگاه داده
+		}
+
+		err := postgers.SaveAudioLog(db, audioLog)
+		if err != nil {
+			log.Printf("Error saving audio log to PostgreSQL: %v", err)
+		}
+
+		// ارسال داده صوتی به Kafka
+		err = kafka.SendAudioToKafka(data.Data)
+		if err != nil {
+			log.Println(err)
+		}
 	}
+
 }
 
 var startTimes = make(map[string]time.Time)
 
 func StartUDPServer() error {
 	cfg := config.GetConfig()
-	ln, err := net.ListenPacket("udp", ":"+cfg.UDPPort)
+	ln, err := net.ListenPacket("udp", ":"+cfg.UDP_Port)
 	if err != nil {
 		log.Fatal("Error starting UDP server:", err)
 	}

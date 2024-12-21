@@ -4,8 +4,8 @@ import (
 	"log"
 	"time"
 
-	config "signal/configs"
-	db "signal/internal/database"
+	config "signal/config"
+	"signal/internal/connection"
 	"signal/internal/router"
 	"signal/internal/service"
 	"signal/internal/udp"
@@ -24,7 +24,7 @@ import (
 func main() {
 	cfg := config.GetConfig()
 
-	dbConn := db.ConnectDB()
+	dbConn := connection.ConnectDB()
 	if dbConn == nil {
 		log.Fatal("error connectiing to")
 	}
@@ -53,7 +53,7 @@ func main() {
 	}))
 
 	router.SetupRoutes(app, userRepo, audioRepo, jwtService)
-	log.Fatal(app.Listen(":" + cfg.HTTPPort))
-	log.Printf("Server HTTP on port  %v has running ✅", cfg.HTTPPort)
+	log.Fatal(app.Listen(":" + cfg.TCP_Port))
+	log.Printf("Server HTTP on port  %v has running ✅", cfg.TCP_Port)
 
 }
