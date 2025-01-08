@@ -1,10 +1,14 @@
 package postgers
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type AudioLog struct {
-	ID        uint   `gorm:"primaryKey"`
-	IP        string `gorm:"index"`
+	ID        uuid.UUID `json:"id" gorm:"type:uuid;default:gen_random_uuid()"`
+	IP        string    `gorm:"index"`
 	Port      int
 	Duration  float64
 	FileName  string

@@ -141,7 +141,8 @@ dist
 .tern-port
 
 # Stores VSCode versions used for testing VSCode extensions
-.vscode-test
+.vscode
+
 
 # yarn v2
 .yarn/cache
@@ -155,3 +156,4 @@ dist
 
 #docker data
 data
+backend/tests/getfile/retrieved_audio.mp3

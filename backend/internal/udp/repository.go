@@ -1,6 +1,8 @@
 package udp
 
 import (
+	"signal/internal/common"
+
 	"gorm.io/gorm"
 )
 
@@ -12,8 +14,8 @@ func NewAudioDataRepository(db *gorm.DB) *AudioDataRepository {
 	return &AudioDataRepository{DB: db}
 }
 
-func (r *AudioDataRepository) GetAllAudioData() ([]AudioData, error) {
-	var audios []AudioData
+func (r *AudioDataRepository) GetAllAudioData() ([]common.AudioData, error) {
+	var audios []common.AudioData
 	if err := r.DB.Find(&audios).Error; err != nil {
 		return nil, err
 	}

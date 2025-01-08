@@ -3,6 +3,7 @@ package connection
 import (
 	"log"
 	config "signal/config"
+	"signal/internal/common"
 	postgers "signal/internal/postgres"
 	"signal/internal/udp"
 	"signal/internal/user"
@@ -23,7 +24,8 @@ func ConnectDB() *gorm.DB {
 		&user.User{},
 		&user.Rol{},
 		&udp.Message{},
-		&udp.AudioData{},
+		//&udp.UDPServer{},
+		&common.AudioData{},
 		&udp.ClientInfo{},
 	); err == nil {
 		log.Println("Create user model successfuly")

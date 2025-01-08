@@ -2,20 +2,24 @@ package minio
 
 import (
 	"fmt"
-	"log"
+	"signal/config"
 
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 )
 
-func InitializeMinio() (*minio.Client, error) {
-	client, err := minio.New("localhost:9000", &minio.Options{
-		Creds:  credentials.NewStaticV4("your-access-key", "your-secret-key", ""),
-		Secure: false, // یا true اگر از HTTPS استفاده می‌کنید
+func InitMinioClient() (*minio.Client, error) {
+	cfg := config.GetConfig()
+	useSSL := false
+
+	minioClient, err := minio.New(cfg.Minio_Endpoint, &minio.Options{
+		Creds:  credentials.NewStaticV4(cfg.Minio_Access_Key, cfg.Minio_Secret_Key, ""),
+		Secure: useSSL,
 	})
+
 	if err != nil {
-		return nil, fmt.Errorf("failed to initialize MinIO client: %v", err)
+		return nil, fmt.Errorf("failed to initialize MinIO client: %w", err)
 	}
-	log.Println("MinIO client initialized successfully")
-	return client, nil
+
+	return minioClient, nil
 }

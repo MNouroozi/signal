@@ -1,0 +1,32 @@
+# مرحله ساخت
+FROM golang:1.23-alpine AS builder
+
+RUN apk add --no-cache git
+
+WORKDIR /app
+
+# کپی فایل‌ها از دایرکتوری والد
+COPY go.mod go.sum .env ./
+
+# نصب وابستگی‌ها
+RUN go mod tidy
+
+# کپی کل پروژه
+COPY . .
+
+# ساخت برنامه
+RUN go build -o main ./cmd
+
+# مرحله اجرا
+FROM alpine:latest
+
+RUN apk add --no-cache libc6-compat
+
+WORKDIR /app
+
+# کپی فایل اجرایی و فایل .env از مرحله ساخت
+COPY --from=builder /app/main /app/
+COPY --from=builder /app/.env /app/
+
+# اجرای برنامه
+CMD ["./main"]

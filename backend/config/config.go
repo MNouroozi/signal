@@ -10,14 +10,17 @@ import (
 )
 
 type Config struct {
-	DSN              string
-	TCP_IP           string
-	TCP_Port         string
-	UDP_Ip           string
-	UDP_Port         string
-	Log_Level        string
-	Minio_Access_Key string
-	Minio_Secret_Key string
+	DSN                 string
+	TCP_IP              string
+	TCP_Port            string
+	UDP_Ip              string
+	UDP_Port            string
+	Log_Level           string
+	Minio_Endpoint      string
+	Minio_Access_Key    string
+	Minio_Secret_Key    string
+	Minio_Root_User     string
+	Minio_Root_Password string
 }
 
 var (
@@ -45,29 +48,25 @@ func GetConfig() *Config {
 
 		// Initialize the configuration using environment variables or default values
 		instance = &Config{
-			DSN:              getEnv("DSN", "host=localhost user=signal password=signal123 dbname=signaldb port=5432 sslmode=disable"),
-			TCP_IP:           getEnv("TCP_IP", "127.0.0.1"),
-			TCP_Port:         getEnv("TCP_PORT", "4000"),
-			UDP_Ip:           getEnv("UDP_IP", "127.0.0.1"),
-			UDP_Port:         getEnv("UDP_PORT", "5000"),
-			Log_Level:        getEnv("LOG_LEVEL", "INFO"),
-			Minio_Access_Key: getEnv("MINIO_ACCESS_KEY", "admin@admin.com"),
-			Minio_Secret_Key: getEnv("MINIO_SECRET_KEY", "admin@admin.com"),
+			DSN:                 getEnv("DSN", "host=localhost user=signal password=signal123 dbname=signaldb port=5432 sslmode=disable"),
+			TCP_IP:              getEnv("TCP_IP", "127.0.0.1"),
+			TCP_Port:            getEnv("TCP_PORT", "4000"),
+			UDP_Ip:              getEnv("UDP_IP", "127.0.0.1"),
+			UDP_Port:            getEnv("UDP_PORT", "5000"),
+			Log_Level:           getEnv("LOG_LEVEL", "INFO"),
+			Minio_Endpoint:      getEnv("MINIO_ENDPOINT", "localhost:9000"),
+			Minio_Root_User:     getEnv("MINIO_ROOT_USER", "admin@signal.com"),
+			Minio_Root_Password: getEnv("MINIO_ROOT_PASSWORD", "admin123"),
+			Minio_Access_Key:    getEnv("MINIO_ACCESS_KEY", "GVUF9AahTWQFqlYGi7bl"),
+			Minio_Secret_Key:    getEnv("MINIO_SECRET_KEY", "i90gm8bYL8guITSARrvPe4BQzWsTBs5VlDqZetDA"),
 		}
 
-		// Log the loaded configuration for debugging purposes
-		log.Printf("Loaded configuration: %+v", instance)
-
-		// Log the individual environment variables for debugging
-		log.Printf("Environment variables: DSN=%s\n, TCP_IP=%s\n, TCP_PORT=%s\n, UDP_IP=%s\n, UDP_PORT=%s\n, LOG_LEVEL=%s\n, Minio_Access_Key=%s\n, Minio_Secret_Key=%s\n",
-			os.Getenv("DSN"),
-			os.Getenv("TCP_IP"),
-			os.Getenv("TCP_PORT"),
-			os.Getenv("UDP_IP"),
-			os.Getenv("UDP_PORT"),
-			os.Getenv("LOG_LEVEL"),
-			os.Getenv("Minio_Access_Key"),
-			os.Getenv("Minio_Secret_Key"),
+		log.Printf("Environment variables\n: ME:%s\nMR:%s\nMRP:%s\nMAK:%s\nMSK:%s\n",
+			os.Getenv("MINIO_ENDPOINT"),
+			os.Getenv("MINIO_ROOT_USER"),
+			os.Getenv("MINIO_ROOT_PASSWORD"),
+			os.Getenv("MINIO_ACCESS_KEY"),
+			os.Getenv("MINIO_SECRET_KEY"),
 		)
 
 	})

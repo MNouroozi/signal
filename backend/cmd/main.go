@@ -6,6 +6,7 @@ import (
 
 	config "signal/config"
 	"signal/internal/connection"
+	"signal/internal/kafka"
 	"signal/internal/router"
 	"signal/internal/service"
 	"signal/internal/udp"
@@ -26,7 +27,7 @@ func main() {
 
 	dbConn := connection.ConnectDB()
 	if dbConn == nil {
-		log.Fatal("error connectiing to")
+		log.Fatal("error connecting to database")
 	}
 
 	go udp.ProcessAudioQueue(dbConn)
@@ -37,9 +38,13 @@ func main() {
 
 	sqlDB, err := dbConn.DB()
 	if err != nil {
-		log.Fatal("خطا در دریافت اتصال SQL:", err)
+		log.Fatal("error connecting to sql database:", err)
 	}
 	defer sqlDB.Close()
+
+	go func() {
+		kafka.InitKafkaConsumer([]string{"localhost:9092"})
+	}()
 
 	log.Println("Database has connected ... ✅")
 	jwtService := service.NewJWTService("supersecretkey", time.Hour*24)
