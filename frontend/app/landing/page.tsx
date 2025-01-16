@@ -18,8 +18,8 @@ const LandingPage = () => {
                 alignItems: 'center',
                 height: '100vh',
                 width: '100%',
-                backgroundImage: 'url(/output.gif)',  // مسیر تصویر پس‌زمینه
-                backgroundSize: '100% 100%', // استرچ کردن تصویر
+                backgroundImage: 'url(/output.gif)',
+                backgroundSize: '100% 100%',
                 backgroundPosition: 'center',
                 flexDirection: 'column',
                 p: 2,
