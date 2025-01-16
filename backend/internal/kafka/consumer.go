@@ -3,7 +3,8 @@ package kafka
 import (
 	"fmt"
 	"log"
-	m "signal/internal/minio"
+	client "signal/internal/minio/Client"
+	"signal/internal/minio/handler"
 
 	"github.com/IBM/sarama"
 )
@@ -145,7 +146,7 @@ func InitKafkaConsumer(brokerList []string) error {
 // }
 
 func handleMessages(pc sarama.PartitionConsumer) {
-	mc, err := m.InitMinioClient()
+	mc, err := client.InitMinioClient()
 	if err != nil {
 		log.Fatal("Error connecting to Minio:", err)
 	}
@@ -157,7 +158,7 @@ func handleMessages(pc sarama.PartitionConsumer) {
 
 			fileID := string(message.Key)
 
-			l, err := m.UploadToMinIO(mc, "audio-files", fileID, data)
+			l, err := handler.UploadToMinIO(mc, "audio-files", fileID, data)
 			if err != nil {
 				log.Printf("Failed to upload file %s to MinIO: %v", fileID, err)
 			} else {

@@ -3,17 +3,18 @@ package router
 import (
 	"encoding/base64"
 	"fmt"
+	"signal/internal/auth/handler"
+	"signal/internal/auth/repository"
 	"signal/internal/proxy"
 	"signal/internal/service"
 	"signal/internal/udp"
-	"signal/internal/user"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/swagger"
 )
 
-func SetupRoutes(app *fiber.App, userRepo *user.UserRepository, audioRepo *udp.AudioDataRepository, jwtService *service.JWTService) {
+func SetupRoutes(app *fiber.App, userRepo *repository.UserRepository, audioRepo *udp.AudioDataRepository, jwtService *service.JWTService) {
 
 	api := app.Group("/api/v1")
 
@@ -29,12 +30,12 @@ func SetupRoutes(app *fiber.App, userRepo *user.UserRepository, audioRepo *udp.A
 	})
 
 	api.Post("/signup", func(c *fiber.Ctx) error {
-		handler := user.User{}
+		handler := handler.User{}
 		return handler.SignUp(c, userRepo)
 	})
 
 	api.Post("/login", func(c *fiber.Ctx) error {
-		handler := user.User{}
+		handler := handler.User{}
 		return handler.Login(c, userRepo, jwtService)
 	})
 

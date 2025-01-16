@@ -1,10 +1,11 @@
-"use client";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faEnvelope, faLock, faSignInAlt } from "@fortawesome/free-solid-svg-icons"; // اضافه کردن آیکون‌ها
+"use client"; // app/landing/page.tsx
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { FaSignInAlt } from 'react-icons/fa';
+import { Box, Button, Paper, TextField, Typography, Alert } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
-const SignUp = () => {
+const SignUpPage = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -12,7 +13,7 @@ const SignUp = () => {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
-    const handelSignUp = async (e: React.FormEvent) => {
+    const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!name || !email || !password) {
@@ -46,88 +47,108 @@ const SignUp = () => {
     };
 
     return (
-        <div className="container my-5">
-            <div className="row justify-content-center">
-                <div className="col-md-6">
-                    <div className="card shadow-lg">
-                        <div className="card-body">
-                            <h2 className="text-center mb-4">Sign Up</h2>
+        <Box sx={{ display: 'flex', minHeight: '100vh', flexDirection: { xs: 'column', md: 'row' } }}>
+            {/* Left Side Image */}
+            <Box
+                sx={{
+                    flex: 1,
+                    backgroundImage: 'url(./01.png)',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    display: { xs: 'none', md: 'block' },
+                }}
+            />
 
-                            {/* نمایش ارور */}
-                            {error && (
-                                <div className="alert alert-danger fade show mb-4" role="alert">
-                                    <strong>Error!</strong> {error}
-                                </div>
-                            )}
+            {/* Right Side Sign Up Form */}
+            <Box
+                component={Paper}
+                elevation={6}
+                square
+                sx={{
+                    flex: 1,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: 4,
+                }}
+            >
+                <Box sx={{ width: '100%', maxWidth: 400 }}>
+                    <Typography component="h1" variant="h5" sx={{ fontWeight: 600, textAlign: 'center' }}>
+                        Create Your Account
+                    </Typography>
 
-                            <form onSubmit={handelSignUp}>
-                                <div className="mb-3">
-                                    <label htmlFor="name" className="form-label">
-                                        <FontAwesomeIcon icon={faUser} className="me-2" />
-                                        Name
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        className="form-control"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="email" className="form-label">
-                                        <FontAwesomeIcon icon={faEnvelope} className="me-2" />
-                                        Email
-                                    </label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        className="form-control"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="password" className="form-label">
-                                        <FontAwesomeIcon icon={faLock} className="me-2" />
-                                        Password
-                                    </label>
-                                    <input
-                                        type="password"
-                                        id="password"
-                                        className="form-control"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                                <div className="d-grid gap-2">
-                                    <button
-                                        type="submit"
-                                        className="btn btn-primary"
-                                        disabled={isLoading}
-                                    >
-                                        {isLoading ? (
-                                            <div className="spinner-border spinner-border-sm text-light" role="status">
-                                                <span className="visually-hidden">Loading...</span>
-                                            </div>
-                                        ) : (
-                                            <>
-                                                <FontAwesomeIcon icon={faSignInAlt} className="me-2" />
-                                                Sign Up
-                                            </>
-                                        )}
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    {error && (
+                        <Alert severity="error" sx={{ width: '100%', mt: 2 }}>
+                            {error}
+                        </Alert>
+                    )}
+
+                    <Box component="form" noValidate onSubmit={handleSignUp} sx={{ mt: 3, width: '100%' }}>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="name"
+                            label="Full Name"
+                            name="name"
+                            autoComplete="name"
+                            autoFocus
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            sx={{ mb: 2 }}
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            sx={{ mb: 2 }}
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            sx={{ mb: 2 }}
+                        />
+
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            sx={{ mt: 3, mb: 2 }}
+                            disabled={isLoading}
+                            startIcon={<FaSignInAlt />}
+                        >
+                            {isLoading ? 'Signing Up...' : 'Sign Up'}
+                        </Button>
+
+                        <Box sx={{ textAlign: 'center', mt: 2 }}>
+                            <Typography variant="body2">
+                                Already have an account?{' '}
+                                <Link href="/signin" style={{ textDecoration: 'none', color: '#1976d2' }}>
+                                    Log In
+                                </Link>
+                            </Typography>
+                        </Box>
+                    </Box>
+                </Box>
+            </Box>
+        </Box>
     );
 };
 
-export default SignUp;
+export default SignUpPage;

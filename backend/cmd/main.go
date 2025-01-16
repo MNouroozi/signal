@@ -5,12 +5,12 @@ import (
 	"time"
 
 	config "signal/config"
-	"signal/internal/connection"
+	"signal/internal/auth/repository"
+	connection "signal/internal/connection/postgres"
 	"signal/internal/kafka"
 	"signal/internal/router"
 	"signal/internal/service"
 	"signal/internal/udp"
-	"signal/internal/user"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -33,7 +33,7 @@ func main() {
 	go udp.ProcessAudioQueue(dbConn)
 	go udp.StartUDPServer()
 
-	userRepo := user.NewUserRepository(dbConn)
+	userRepo := repository.NewUserRepository(dbConn)
 	audioRepo := udp.NewAudioDataRepository(dbConn)
 
 	sqlDB, err := dbConn.DB()
