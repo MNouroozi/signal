@@ -6,72 +6,77 @@ import {
     Typography,
     Button,
 } from '@mui/material';
-import { FaRegHandshake, FaSignInAlt } from 'react-icons/fa';
+import { FaSignInAlt } from 'react-icons/fa';
 import Link from 'next/link';
+import VideoBackground from '../components/VideoBackground';
+import ResponsiveAppBar from '../components/AppBar';
 
 const LandingPage = () => {
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '100vh',
-                width: '100%',
-                backgroundImage: 'url(/output.gif)',
-                backgroundSize: '100% 100%',
-                backgroundPosition: 'center',
-                flexDirection: 'column',
-                p: 2,
-            }}
-        >
-            {/* Welcome Text */}
-            <Typography
-                variant="h3"
+        <div>
+            <VideoBackground />
+            <ResponsiveAppBar/>
+            <Box
                 sx={{
-                    fontWeight: 'bold',
-                    color: 'white',
-                    textAlign: 'center',
-                    mb: 4,
-                    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+                    position: 'relative',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100vh',
+                    width: '100%',
+                    flexDirection: 'column',
+                    p: 2,
+                    zIndex: 1, // تا محتوای صفحه روی ویدیو نمایش داده شود
                 }}
             >
-                Welcome to MyApp
-            </Typography>
-            <Typography
-                variant="h5"
-                sx={{
-                    color: 'white',
-                    textAlign: 'center',
-                    mb: 6,
-                    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
-                }}
-            >
-                A beautiful and easy-to-use application to get things done.
-            </Typography>
-
-            {/* Action Button */}
-            <Link href="/signin">
-                <Button
-                    variant="contained"
-                    color="primary"
+                {/* Welcome Text */}
+                <Typography
+                    variant="h3"
                     sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        fontSize: '1rem',
-                        p: 2,
-                        bgcolor: 'primary.main',
-                        '&:hover': {
-                            bgcolor: 'primary.dark',
-                        },
+                        fontWeight: 'bold',
+                        color: 'white',
+                        textAlign: 'center',
+                        mb: 4,
+                        textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
                     }}
                 >
-                    <FaSignInAlt style={{ marginRight: 8 }} />
-                    Login
-                </Button>
-            </Link>
-        </Box>
+                    Welcome to MyApp
+                </Typography>
+                <Typography
+                    variant="h5"
+                    sx={{
+                        color: 'white',
+                        textAlign: 'center',
+                        mb: 6,
+                        textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+                    }}
+                >
+                    A beautiful and easy-to-use application to get things done.
+                </Typography>
+
+                {/* Action Button */}
+                <Link href="/signin">
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            fontSize: '1rem',
+                            p: 2,
+                            bgcolor: 'primary.main',
+                            '&:hover': {
+                                bgcolor: 'primary.dark',
+                            },
+                        }}
+                    >
+                        <FaSignInAlt style={{ marginRight: 8 }} />
+                        Login
+                    </Button>
+                </Link>
+            </Box>
+        </div>
     );
 };
 
