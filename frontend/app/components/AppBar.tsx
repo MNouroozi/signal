@@ -13,12 +13,14 @@ import {
     Switch,
 } from '@mui/material';
 import LanguageIcon from '@mui/icons-material/Language';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 // تایپ event برای TypeScript
 const ResponsiveAppBar = () => {
+    const projectName="KarinPayesh I.C.S"
     const [anchorElLang, setAnchorElLang] = useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
     const [direction, setDirection] = useState<'ltr' | 'rtl'>('ltr'); // جهت زبان
@@ -130,7 +132,7 @@ const ResponsiveAppBar = () => {
                             cursor: 'pointer',
                         }}
                     >
-                        MyApp
+                        {projectName}
                     </Typography>
 
                     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -142,7 +144,7 @@ const ResponsiveAppBar = () => {
                             onClick={handleOpenLangMenu}
                             color="inherit"
                         >
-                            <LanguageIcon />
+                            <AcUnitIcon />
                         </IconButton>
                         <Menu
                             id="language-menu"

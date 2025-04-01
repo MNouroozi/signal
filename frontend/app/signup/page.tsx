@@ -5,6 +5,8 @@ import { FaSignInAlt } from 'react-icons/fa';
 import { Box, Button, Paper, TextField, Typography, Alert } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
+const role_id ="cc33fd51-6b8e-44d6-9dba-35f05c3375fc"
+
 const SignUpPage = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -30,7 +32,7 @@ const SignUpPage = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ name, email, password }),
+                body: JSON.stringify({ name, email, password, role_id }),
             });
 
             if (!response.ok) {

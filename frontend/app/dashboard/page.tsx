@@ -42,14 +42,15 @@ function DemoPageContent({ pathname }: { pathname: string }) {
     return (
         <Box
             sx={{
-                py: 4,
+                py: 2,
+                px: 2,
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
-                textAlign: 'center',
+                alignItems: 'start',
+                textAlign: 'left',
             }}
         >
-            <Typography>Dashboard content for {pathname}</Typography>
+            <Typography>Dashboard{pathname}</Typography>
         </Box>
     );
 }

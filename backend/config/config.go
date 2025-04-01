@@ -21,6 +21,7 @@ type Config struct {
 	Minio_Secret_Key    string
 	Minio_Root_User     string
 	Minio_Root_Password string
+	
 }
 
 var (
